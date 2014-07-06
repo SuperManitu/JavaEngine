@@ -1,0 +1,16 @@
+/Spiel/bin/
+
+/Spiel/.settings/
+
+/Spiel/.classpath
+/Spiel/.project
+
+/.git/
+
+/Engine3.0/.settings/
+/Engine3.0/bin/
+/Engine3.0/native/
+/Engine3.0/.classpath
+/Engine3.0/.project
+/Engine3.0/lwjgl.jar
+/Engine3.0/lwjgl_util.jar
