@@ -23,7 +23,7 @@ public class EngineEventHandler
 		
 		if (event instanceof NewEntityEvent)
 		{
-			if (event.getAddress().equals(Game.instance().getIp())) return;
+			if (Game.instance().getIp() == null || event.getAddress().equals(Game.instance().getIp())) return;
 			
 			NewEntityEvent e = (NewEntityEvent) event;
 

@@ -59,7 +59,7 @@ public class Model
 		
 		for (Entity e : entities.values())
 		{
-			if (e instanceof EntityPlayer && !((EntityPlayer)e).getAddress().equals(Game.instance().getIp())) continue;
+			if (e instanceof EntityPlayer && (Game.instance().getIp() != null && !((EntityPlayer)e).getAddress().equals(Game.instance().getIp()))) continue;
 			e.update();
 		}
 		

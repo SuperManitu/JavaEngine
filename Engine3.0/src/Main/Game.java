@@ -68,8 +68,6 @@ public abstract class Game implements Runnable
 		this.fullscreen = fullscreen;
 		this.title = title;
 		
-		ip = getExternalIP();
-		
 		time = new Time();
 		controller = new Controller();
 		model = new Model(worldPath);
@@ -130,6 +128,8 @@ public abstract class Game implements Runnable
 
 	protected void startServer(String host, int port)
 	{
+		ip = getExternalIP();
+		
 		if (host != null) network = new Network(host, port);
 		else network = new Network(port);
 	}
