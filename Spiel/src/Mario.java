@@ -22,19 +22,19 @@ public class Mario extends EntityPlayer
 	{
 		if (left)
 		{
-			this.moveX(speed);
+			this.moveX(-speed);
 		}
 		if (right)
 		{
-			this.moveX(-speed);
+			this.moveX(speed);
 		}
 		if (up)
 		{
-			this.moveY(-speed);
+			this.moveY(speed);
 		}
 		if (down)
 		{
-			this.moveY(speed);
+			this.moveY(-speed);
 		}
 		else if (!left && !right && !down && !up)
 		{
@@ -56,12 +56,12 @@ public class Mario extends EntityPlayer
 		
 		if (key == Key.A)
 		{
-			this.setMirrored(true);
+			this.setMirrored(false);
 			left = true;
 		}
 		else if (key == Key.D)
 		{
-			this.setMirrored(false);
+			this.setMirrored(true);
 			right = true;
 		}
 	}

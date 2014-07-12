@@ -113,6 +113,7 @@ public class Server
 		
 		for (InetAddress ip : clients.keySet())
 		{
+			if (ev.getAddress().equals(ip)) continue;
 			DatagramPacket packet = new DatagramPacket(buffer, buffer.length, ip, port);
 			socket.send(packet);
 		}
