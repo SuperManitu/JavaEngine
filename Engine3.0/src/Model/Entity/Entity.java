@@ -146,13 +146,14 @@ public abstract class Entity
 		}
 	}
 
-	public void update()
+	public void update(boolean onUpdate)
 	{
-		this.onUpdate();
+		if (onUpdate) this.onUpdate();
 		animation.update();
 		
-		if(!speed.equals(newSpeed))
+		if (!speed.equals(newSpeed))
 		{
+			System.out.println("Old: " + speed.x + " " + speed.y + " New: " + newSpeed.x + " " + newSpeed.y);
 			speed.x = newSpeed.x;
 			speed.y = newSpeed.y;
 			new MovementAlterEvent(speed.x, speed.y, this.getUUID());
@@ -260,6 +261,6 @@ public abstract class Entity
 	public void applyMovementAlterEvent(MovementAlterEvent event)
 	{
 		this.speed = new Vector2f(event.getX(), event.getY());
-		this.updateVertices();
+		this.newSpeed = new Vector2f(event.getX(), event.getY());
 	}
 }

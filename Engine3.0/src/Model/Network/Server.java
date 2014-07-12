@@ -27,14 +27,12 @@ public class Server
 	private InetAddress myAdress;
 	private InetAddress serverAddress;
 	
-	private long counter = 0;
-	
-	private Hashtable<InetAddress, Long> clients;
+	private Hashtable<InetAddress, Float> clients;
 
 	public Server(DatagramSocket socket) throws SocketException
 	{
 		this.socket = socket;
-		this.clients = new Hashtable<InetAddress, Long>();
+		this.clients = new Hashtable<InetAddress, Float>();
 		this.port = socket.getLocalPort();
 
 		myAdress = Game.instance().getIp();
@@ -62,7 +60,7 @@ public class Server
 		myAdress = Game.instance().getIp();
 		
 		this.socket = socket;
-		this.clients = new Hashtable<InetAddress, Long>();
+		this.clients = new Hashtable<InetAddress, Float>();
 		this.isServer = false;
 		this.serverAddress = host;
 		this.port = socket.getLocalPort();
@@ -77,7 +75,14 @@ public class Server
 	{
 		if (isServer) sendBroadcastPacket();
 		
-		counter += Time.deltaTime();
+		if(isServer)
+		{
+			for (InetAddress ip : clients.keySet())
+			{
+				clients.put(ip, clients.get(ip).floatValue() + Time.deltaTime());
+			}
+			removeInactiveClients();
+		}
 
 		for (Event ev : events)
 		{
@@ -110,19 +115,16 @@ public class Server
 		{
 			DatagramPacket packet = new DatagramPacket(buffer, buffer.length, ip, port);
 			socket.send(packet);
-			clients.put(ip, clients.get(ip).longValue() + counter);
 		}
-		counter = 0;
-		removeInactiveClients();
 	}
 
 	private void removeInactiveClients() 
 	{
 		@SuppressWarnings("unchecked")
-		Hashtable<InetAddress, Long> cp = (Hashtable<InetAddress, Long>) clients.clone();
-		for (Entry<InetAddress, Long> entry : cp.entrySet())
+		Hashtable<InetAddress, Float> cp = (Hashtable<InetAddress, Float>) clients.clone();
+		for (Entry<InetAddress, Float> entry : cp.entrySet())
 		{
-			if (entry.getValue() > 5000)
+			if (entry.getValue() > 5f)
 			{
 				new PlayerLogoutEvent();
 				removeClient(entry.getKey());
@@ -187,7 +189,7 @@ public class Server
 	
 	public void addClient(InetAddress address)
 	{
-		clients.put(address, 0L);
+		clients.put(address, 0f);
 		Network.instance().addPlayer(address);
 		new PlayerLoginEvent();
 	}
@@ -204,7 +206,7 @@ public class Server
 	
 	public void resetCounter(InetAddress address)
 	{
-		clients.put(address, 0L);
+		clients.put(address, 0f);
 	}
 	
 	public boolean isServer()

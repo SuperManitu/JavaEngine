@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Vector;
 
 import org.lwjgl.LWJGLException;
@@ -183,7 +185,7 @@ public abstract class Game implements Runnable
 	
 	//++++++++++++++++ Getter & Setter ++++++++++++++++++++++//
 	
-	private InetAddress getExternalIP()
+	/*private InetAddress getExternalIP()
 	{
 		InetAddress address = null;
 		String[] urls = 
@@ -212,7 +214,59 @@ public abstract class Game implements Runnable
 		while (address == null && counter < urls.length);
 		
 		return address;
+	}*/
+	private InetAddress getExternalIP()
+	{
+		InetAddress address = null;
+		String[] urls = 
+			{
+				"http://checkip.amazonaws.com/",
+				"http://icanhazip.com/",
+				"http://curlmyip.com/",
+				"http://www.trackip.net/ip"
+			};
+		int counter = 0;
+		do
+		{
+			if (counter >= urls.length)
+			{
+				System.err.println("No internet connection");
+				return null;
+			}
+			
+			try
+			{
+				URL whatismyip = new URL(urls[counter]);
+				URLConnection con = whatismyip.openConnection();
+				con.setConnectTimeout(300);
+				
+				/*con.
+				Object o = con.getContent();
+				System.out.println("Object: " + o);*/
+				
+				if (whatismyip.openStream().available() > 0)
+				{
+					BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
+					String ip = in.readLine();
+					
+					System.out.println("Address: " + ip);
+					address = InetAddress.getByName(ip);
+				}
+				else
+				{
+					System.err.println("Couldn't get IP!");
+				}
+				
+			}
+			catch (SocketTimeoutException e) { }
+			catch (IOException e) {e.printStackTrace();}
+			counter++;
+		}
+		while (address == null && counter < urls.length);
+		
+		return address;
 	}
+	
 	
 	/**
 	 * Gibt eine Instanz der Klasse Game zur�ck

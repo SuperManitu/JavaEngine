@@ -59,8 +59,8 @@ public class Model
 		
 		for (Entity e : entities.values())
 		{
-			if (e instanceof EntityPlayer && (Game.instance().getIp() != null && !((EntityPlayer)e).getAddress().equals(Game.instance().getIp()))) continue;
-			e.update();
+			if (e instanceof EntityPlayer && (Game.instance().getIp() != null && !((EntityPlayer)e).getAddress().equals(Game.instance().getIp()))) e.update(false);
+			e.update(true);
 		}
 		
 		world.update();
@@ -102,7 +102,7 @@ public class Model
 	public static Model instance(){ return instance; }
 	
 	/**
-	 * Gibt das Objekt zur�ck, welches die �bergebene ID hat
+	 * Gibt das Objekt zurueck, welches die uebergebene ID hat
 	 * @param uuid ID des Objekts
 	 * @return Entity
 	 */

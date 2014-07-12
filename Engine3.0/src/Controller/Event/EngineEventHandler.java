@@ -64,19 +64,20 @@ public class EngineEventHandler
 				
 				for (Entity e : Model.instance().getEntities().values()) // Entities an destination (den neuen Spieler) senden
 				{
-					new NewEntityEvent(event.getAddress(), e.getX(), e.getY(), e.getScale(), e.getPath(), e.getAnimationSteps(), e.getAnimationLengths(), e.getAnimationNames(), e.getAnimationSpeeds(), e.getUUID(), e.getClass());
+					if(e instanceof EntityPlayer) new NewEntityPlayerEvent(Game.instance().getIp(), event.getAddress(), e.getX(), e.getY(), e.getScale(), e.getPath(), e.getAnimationSteps(), e.getAnimationLengths(), e.getAnimationNames(), e.getAnimationSpeeds(), e.getUUID(), e.getClass());
+					else new NewEntityEvent(event.getAddress(), e.getX(), e.getY(), e.getScale(), e.getPath(), e.getAnimationSteps(), e.getAnimationLengths(), e.getAnimationNames(), e.getAnimationSpeeds(), e.getUUID(), e.getClass());
 				}
 			}
 			else // eigenes LoginEvent
 			{
-				for (Entity e : Model.instance().getEntities().values())
+				/*for (Entity e : Model.instance().getEntities().values())
 				{
 					if (e instanceof EntityPlayer)
 					{
 						EntityPlayer p = (EntityPlayer) e;
 						new NewEntityPlayerEvent(p.getAddress(), e.getX(), e.getY(), e.getScale(), e.getPath(), e.getAnimationSteps(), e.getAnimationLengths(), e.getAnimationNames(), e.getAnimationSpeeds(), e.getUUID(), e.getClass());
 					}
-				}
+				}*/
 			}
 		}
 		else if (event instanceof PlayerLogoutEvent)

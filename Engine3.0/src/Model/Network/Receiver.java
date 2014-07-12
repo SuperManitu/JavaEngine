@@ -7,7 +7,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
 
 import Controller.Event.Event;
 import Controller.Event.PlayerLoginEvent;
@@ -24,11 +23,7 @@ public class Receiver implements Runnable
 	{
 		this.socket = socket;
 		this.server = server;
-		try
-		{
-			local = InetAddress.getLocalHost();
-		} 
-		catch (UnknownHostException e) {e.printStackTrace();}
+		local = Game.instance().getIp();
 	}
 	
 	@Override

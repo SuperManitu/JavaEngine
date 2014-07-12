@@ -12,7 +12,7 @@ public class Time
 	public void update()
 	{
 		now = System.nanoTime();
-		delta = last - now;
+		delta = now - last;
 		last = now;
 	}
 	

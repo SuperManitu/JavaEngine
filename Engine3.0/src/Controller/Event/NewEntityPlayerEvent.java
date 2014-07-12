@@ -20,6 +20,12 @@ public class NewEntityPlayerEvent extends NewEntityEvent
 		this.address = address;
 	}
 	
+	public NewEntityPlayerEvent(InetAddress destination, InetAddress address, float x, float y, float scale, String path, int animationSteps, int[] animationLengths,	String[] animationNames, float[] animationSpeeds, UUID id, Class<? extends Entity> classObject) 
+	{
+		super(destination, x, y, scale, path, animationSteps, animationLengths, animationNames, animationSpeeds, id, classObject);
+		this.address = address;
+	}
+	
 	public InetAddress getPlayerAddress()
 	{
 		return address;
